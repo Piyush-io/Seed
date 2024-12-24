@@ -1,6 +1,7 @@
 import React, { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 import { useFrame, Canvas } from '@react-three/fiber';
+import { Mesh, RawShaderMaterial } from 'three';
 
 const fragmentShader = `
   precision highp float;
@@ -33,8 +34,8 @@ const vertexShader = `
 `;
 
 function AnimationMesh() {
-  const meshRef = useRef();
-  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const meshRef = useRef<Mesh>(null);
+  const materialRef = useRef<RawShaderMaterial>(null);
 
   const uniforms = useMemo(
     () => ({

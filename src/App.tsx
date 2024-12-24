@@ -1,26 +1,22 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/layout/Layout';
-import Home from './pages/Home';
-import Sectors from './pages/Sectors';
-import Investments from './pages/Investments';
-import Insights from './pages/Insights';
-import About from './pages/About';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import Header from './components/Header';
+import AppRoutes from './routes';
+import ParticlesBackground from './components/ui/ParticlesBackground';
 
-function App() {
+export default function App() {
   return (
     <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/sectors" element={<Sectors />} />
-          <Route path="/investments" element={<Investments />} />
-          <Route path="/insights" element={<Insights />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </Layout>
+      <AuthProvider>
+        <div className="relative min-h-screen bg-background-light">
+          <ParticlesBackground className="fixed inset-0 z-0" particleCount={100} speed={0.2} />
+          <Header />
+          <main className="relative z-10 min-h-screen">
+            <AppRoutes />
+          </main>
+        </div>
+      </AuthProvider>
     </Router>
   );
 }
-
-export default App;
