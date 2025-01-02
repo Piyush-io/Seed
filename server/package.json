@@ -1,7 +1,7 @@
 {
-  "name": "inventure-server",
+  "name": "seed-server",
   "version": "1.0.0",
-  "description": "Backend server for Inventure",
+  "description": "Backend server for Seed",
   "main": "src/index.js",
   "type": "module",
   "scripts": {

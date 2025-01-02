@@ -19,7 +19,12 @@ export default function RegisterForm() {
     setIsLoading(true);
 
     try {
-      await register(firstName, lastName, email, password);
+      await register({
+        firstName,
+        lastName,
+        email,
+        password
+      });
     } catch (err: any) {
       setError(err.message);
     } finally {

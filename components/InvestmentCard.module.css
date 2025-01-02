@@ -1,0 +1,17 @@
+.statusContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #4CAF50; /* Green color for active status */
+}
+
+.statusText {
+  font-size: 14px;
+  color: #333;
+}

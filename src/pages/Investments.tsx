@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { BarChart2, TrendingUp, Users, DollarSign, BarChart3, PieChart, LineChart, Activity, ArrowUpRight, Calendar, Target, Award } from 'lucide-react';
 import ParticlesBackground from '../components/ui/ParticlesBackground';
+import AnimatedGradient from '../components/ui/AnimatedGradient';
+import BentoCard from '../components/ui/BentoCard';
 
 const investments = [
   {
@@ -90,7 +92,6 @@ export default function Investments() {
   return (
     <div className="min-h-screen relative overflow-hidden pt-24">
       <ParticlesBackground />
-
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="max-w-3xl mb-20">
@@ -115,41 +116,35 @@ export default function Investments() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
           {stats.map((stat, index) => (
-            <motion.div
+            <BentoCard
               key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative group"
-            >
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/30 to-emerald-500/30 rounded-2xl opacity-0 group-hover:opacity-100 blur transition duration-500" />
-              <div className="relative bg-background-light/50 p-6 rounded-2xl border border-border backdrop-blur-sm">
-                <div className="flex items-center justify-between mb-4">
-                  <stat.icon className="h-6 w-6 text-primary" />
-                  <div className="text-3xl font-bold text-text-primary">{stat.value}</div>
-                </div>
-                <div className="text-text-secondary">{stat.label}</div>
-              </div>
-            </motion.div>
+              title={stat.label}
+              value={stat.value}
+              colors={['#3b82f6', '#2563eb']}
+              delay={index * 0.1}
+            />
           ))}
         </div>
 
-        {/* Investment Cards */}
         <div className="space-y-8">
           {investments.map((investment, index) => (
-            <motion.div
+            <div
               key={investment.name}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative group"
+              className="relative overflow-hidden rounded-2xl bg-background-light/50 backdrop-blur-sm border border-white/[0.08]"
             >
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/30 to-emerald-500/30 rounded-2xl opacity-0 group-hover:opacity-100 blur transition duration-500" />
-              <div className="relative bg-background-light/50 p-8 rounded-2xl border border-border backdrop-blur-sm">
+              <AnimatedGradient
+                colors={[
+                  investment.sector === 'AI & ML' ? '#8b5cf6' : investment.sector === 'Climate Tech' ? '#ec4899' : '#3b82f6',
+                  investment.sector === 'AI & ML' ? '#6d28d9' : investment.sector === 'Climate Tech' ? '#db2777' : '#1d4ed8'
+                ]}
+                speed={0.05}
+                blur="medium"
+              />
+              <div className="relative z-10 p-8">
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                   {/* Company Info */}
                   <div className="lg:col-span-1">
-                    <h3 className="text-xl font-bold mb-2 text-text-primary group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-bold mb-2 text-text-primary">
                       {investment.name}
                     </h3>
                     <div className="flex items-center space-x-4 text-sm text-text-secondary mb-4">
@@ -215,40 +210,25 @@ export default function Investments() {
                     <TrendLine data={investment.trend} />
                   </div>
                 </div>
-
-                {/* View Details Button */}
-                <div className="absolute top-8 right-8">
-                  <button className="p-2 hover:bg-primary/5 rounded-full transition-colors group/btn">
-                    <ArrowUpRight className="h-5 w-5 text-primary transform group-hover/btn:scale-110 transition-transform" />
-                  </button>
-                </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        {/* Performance Charts */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
           {[
-            { icon: LineChart, title: 'Growth Metrics', description: 'Track portfolio company performance over time' },
-            { icon: PieChart, title: 'Sector Distribution', description: 'Analyze investment allocation across sectors' },
-            { icon: Activity, title: 'Risk Analysis', description: 'Monitor and assess investment risk factors' }
+            { icon: LineChart, title: 'Growth Metrics', description: 'Track portfolio company performance over time', colors: ['#8b5cf6', '#6d28d9'] },
+            { icon: PieChart, title: 'Sector Distribution', description: 'Analyze investment allocation across sectors', colors: ['#ec4899', '#db2777'] },
+            { icon: Activity, title: 'Risk Analysis', description: 'Monitor and assess investment risk factors', colors: ['#f59e0b', '#d97706'] }
           ].map((chart, index) => (
-            <motion.div
+            <BentoCard
               key={chart.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative group"
-            >
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/30 to-emerald-500/30 rounded-2xl opacity-0 group-hover:opacity-100 blur transition duration-500" />
-              <div className="relative bg-background-light/50 p-6 rounded-2xl border border-border backdrop-blur-sm h-[200px] flex flex-col items-center justify-center text-center">
-                <chart.icon className="h-8 w-8 text-primary mb-4" />
-                <h3 className="text-lg font-medium text-text-primary mb-2">{chart.title}</h3>
-                <p className="text-sm text-text-secondary">{chart.description}</p>
-                <div className="absolute bottom-6 text-sm text-primary font-medium">Coming Soon</div>
-              </div>
-            </motion.div>
+              title={chart.title}
+              value="Coming Soon"
+              subtitle={chart.description}
+              colors={chart.colors}
+              delay={index * 0.1}
+            />
           ))}
         </div>
       </div>

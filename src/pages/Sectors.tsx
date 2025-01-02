@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Brain, Heart, Coins, Cpu, Leaf, Globe, ArrowRight, ChevronRight } from 'lucide-react';
+import { Brain, Heart, Coins, Cpu, Leaf, Globe, ArrowRight, ChevronRight, ArrowUpRight, Zap } from 'lucide-react';
 import ParticlesBackground from '../components/ui/ParticlesBackground';
+import { Link } from 'react-router-dom';
 
 const sectors = [
   {
@@ -152,21 +153,23 @@ export default function Sectors() {
         {/* Sectors Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
           {sectors.map((sector, index) => (
-            <motion.div
+            <Link
               key={sector.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative"
+              to={`/sectors/${sector.title.toLowerCase().replace(/&/g, '').replace(/\s+/g, '-').trim()}`}
+              className="block group"
             >
-              {/* Card */}
-              <div className="relative overflow-hidden rounded-3xl bg-background-light/50 border border-border backdrop-blur-sm">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="relative overflow-hidden rounded-2xl bg-background-light/50 backdrop-blur-sm border border-border hover:border-primary/50 transition-colors h-[600px]"
+              >
                 {/* Content */}
-                <div className="p-8">
+                <div className="p-6 h-full flex flex-col">
                   {/* Header */}
-                  <div className="flex items-start justify-between mb-8">
+                  <div className="flex items-start mb-6">
                     <div className="flex items-center space-x-4">
-                      <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${sector.color} flex items-center justify-center text-white`}>
+                      <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${sector.color} flex items-center justify-center text-white flex-shrink-0`}>
                         <sector.icon className="h-6 w-6" />
                       </div>
                       <div>
@@ -181,7 +184,7 @@ export default function Sectors() {
                   </div>
 
                   {/* Stats */}
-                  <div className="grid grid-cols-3 gap-4 mb-8">
+                  <div className="grid grid-cols-3 gap-4 mb-6">
                     <div className="bg-background-light/80 rounded-2xl p-4">
                       <div className="text-2xl font-bold text-primary">{sector.stats.deals}</div>
                       <div className="text-sm text-text-secondary">Deals</div>
@@ -197,7 +200,7 @@ export default function Sectors() {
                   </div>
 
                   {/* Technologies */}
-                  <div>
+                  <div className="flex-grow">
                     <h4 className="text-sm font-medium text-text-primary mb-4">Key Technologies</h4>
                     <div className="grid grid-cols-2 gap-2">
                       {sector.technologies.map((tech, i) => (
@@ -205,27 +208,31 @@ export default function Sectors() {
                           key={i}
                           className="flex items-center space-x-2 text-text-secondary"
                         >
-                          <ChevronRight className="h-4 w-4 text-primary" />
-                          <span>{tech}</span>
+                          <ChevronRight className="h-4 w-4 text-primary flex-shrink-0" />
+                          <span className="truncate">{tech}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  {/* Learn More Button */}
-                  <div className="mt-8 pt-6 border-t border-border">
-                    <button className="flex items-center text-primary hover:text-primary-dark transition-colors">
-                      <span className="mr-2">Learn More</span>
+                  {/* Explore Startups Button */}
+                  <div className="pt-4 border-t border-border mt-auto">
+                    <div className="flex items-center text-primary hover:text-primary-dark transition-colors">
+                      <span className="mr-2">Explore Startups</span>
                       <ArrowRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
-                    </button>
+                    </div>
                   </div>
                 </div>
 
                 {/* Decorative Elements */}
                 <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${sector.color} opacity-5 rounded-full -translate-y-32 translate-x-32 blur-3xl group-hover:opacity-10 transition-opacity duration-300`} />
                 <div className={`absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr ${sector.color} opacity-5 rounded-full translate-y-32 -translate-x-32 blur-3xl group-hover:opacity-10 transition-opacity duration-300`} />
-              </div>
-            </motion.div>
+
+                <div className="absolute bottom-6 right-6 opacity-0 transform translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all">
+                  <ArrowUpRight className="h-5 w-5 text-primary" />
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </div>

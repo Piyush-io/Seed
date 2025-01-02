@@ -66,7 +66,7 @@ export default function About() {
             <span className="block text-text-primary">About</span>
             <span className="relative">
               <span className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-emerald-500/20 blur-lg" />
-              <span className="relative text-primary">Inventure</span>
+              <span className="relative text-primary">Seed</span>
             </span>
           </h1>
 

@@ -1,60 +1,102 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
+    darkMode: ["class"],
+    content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
   ],
   theme: {
-    extend: {
-      colors: {
-        primary: {
-          DEFAULT: '#2E9452',
-          dark: '#1E7A3D'
-        },
-        background: {
-          light: '#FFFFFF',
-          dark: '#1A1A1A'
-        },
-        text: {
-          primary: '#1A1A1A',
-          secondary: '#666666'
-        },
-        border: '#E5E7EB'
-      },
-      boxShadow: {
-        'soft': '0 2px 15px rgba(0, 0, 0, 0.05)',
-      },
-      animation: {
-        "background-gradient": "background-gradient var(--background-gradient-speed, 15s) cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite",
-        "background-shine": "background-shine 2s linear infinite",
-        "text-gradient": "text-gradient 5s linear infinite",
-        "border-width": "border-width 3s infinite alternate"
-      },
-      keyframes: {
-        "background-gradient": {
-          "0%, 100%": {
-            backgroundSize: "200% 200%",
-            backgroundPosition: "left center"
-          },
-          "50%": {
-            backgroundSize: "200% 200%",
-            backgroundPosition: "right center"
-          }
-        },
-        "background-shine": {
-          from: { backgroundPosition: "200% 0" },
-          to: { backgroundPosition: "-200% 0" }
-        },
-        "text-gradient": {
-          to: {
-            backgroundPosition: "200% center"
-          }
-        },
-        "border-width": {
-          from: { width: "10px", opacity: "0" },
-          to: { width: "100px", opacity: "1" }
-        }
-      },
-    },
+  	container: {
+  		center: true,
+  		padding: "2rem",
+  		screens: {
+  			"2xl": "1400px",
+  		},
+  	},
+  	extend: {
+  		fontFamily: {
+  			display: ['Freight Display Pro', 'Georgia', 'serif'],
+  		},
+  		colors: {
+  			border: "hsl(var(--border))",
+  			input: "hsl(var(--input))",
+  			ring: "hsl(var(--ring))",
+  			background: "hsl(var(--background))",
+  			foreground: "hsl(var(--foreground))",
+  			primary: {
+  				DEFAULT: "hsl(var(--primary))",
+  				foreground: "hsl(var(--primary-foreground))",
+                dark: "hsl(var(--primary-dark))",
+  			},
+  			secondary: {
+  				DEFAULT: "hsl(var(--secondary))",
+  				foreground: "hsl(var(--secondary-foreground))",
+  			},
+  			destructive: {
+  				DEFAULT: "hsl(var(--destructive))",
+  				foreground: "hsl(var(--destructive-foreground))",
+  			},
+  			muted: {
+  				DEFAULT: "hsl(var(--muted))",
+  				foreground: "hsl(var(--muted-foreground))",
+  			},
+  			accent: {
+  				DEFAULT: "hsl(var(--accent))",
+  				foreground: "hsl(var(--accent-foreground))",
+  			},
+  			popover: {
+  				DEFAULT: "hsl(var(--popover))",
+  				foreground: "hsl(var(--popover-foreground))",
+  			},
+  			card: {
+  				DEFAULT: "hsl(var(--card))",
+  				foreground: "hsl(var(--card-foreground))",
+  			},
+  		},
+  		boxShadow: {
+  			soft: '0 2px 15px rgba(0, 0, 0, 0.05)',
+  		},
+  		borderRadius: {
+  			lg: "var(--radius)",
+  			md: "calc(var(--radius) - 2px)",
+  			sm: "calc(var(--radius) - 4px)",
+  		},
+  		keyframes: {
+  			"accordion-down": {
+  				from: { height: 0 },
+  				to: { height: "var(--radix-accordion-content-height)" },
+  			},
+  			"accordion-up": {
+  				from: { height: "var(--radix-accordion-content-height)" },
+  				to: { height: 0 },
+  			},
+  			"background-gradient": {
+  				"0%, 100%": {
+  					transform: "translate(0, 0)",
+  					animationDelay: "var(--background-gradient-delay, 0s)",
+  				},
+  				"20%": {
+  					transform: "translate(calc(100% * var(--tx-1, 1)), calc(100% * var(--ty-1, 1)))",
+  				},
+  				"40%": {
+  					transform: "translate(calc(100% * var(--tx-2, -1)), calc(100% * var(--ty-2, 1)))",
+  				},
+  				"60%": {
+  					transform: "translate(calc(100% * var(--tx-3, 1)), calc(100% * var(--ty-3, -1)))",
+  				},
+  				"80%": {
+  					transform: "translate(calc(100% * var(--tx-4, -1)), calc(100% * var(--ty-4, -1)))",
+  				},
+  			},
+  		},
+  		animation: {
+  			"accordion-down": "accordion-down 0.2s ease-out",
+  			"accordion-up": "accordion-up 0.2s ease-out",
+  			"background-gradient": "background-gradient var(--background-gradient-speed, 15s) cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite",
+  		},
+  	}
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 }

@@ -1,15 +1,29 @@
-import React, { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from './ui/Button';
-import Logo from './ui/Logo';
 import { Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
   const location = useLocation();
   const { user, isAuthenticated, logout } = useAuth();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -19,7 +33,9 @@ export default function Header() {
         <div className="flex justify-between items-center h-full">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <Logo />
+            <span className="text-[#00A651] text-2xl font-bold">
+              Seed
+            </span>
           </Link>
 
           {/* Navigation Links - Only show when authenticated */}
@@ -71,15 +87,15 @@ export default function Header() {
           {/* Auth Buttons / User Menu */}
           <div className="hidden md:flex items-center space-x-4">
             {isAuthenticated ? (
-              <div className="relative">
+              <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                   className="flex items-center space-x-2 focus:outline-none"
                 >
                   <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                     <span className="text-sm font-medium text-primary">
-                      {user?.firstName?.[0]}
-                      {user?.lastName?.[0]}
+                      {user?.firstName?.[0]?.toUpperCase()}
+                      {user?.lastName?.[0]?.toUpperCase()}
                     </span>
                   </div>
                   <span className="text-sm font-medium text-text-primary hidden sm:block">
@@ -87,33 +103,41 @@ export default function Header() {
                   </span>
                 </button>
 
-                {isUserMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-border py-1">
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-sm text-text-secondary hover:bg-primary/5 hover:text-primary"
+                <AnimatePresence>
+                  {isUserMenuOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      transition={{ duration: 0.15, ease: "easeOut" }}
+                      className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-border py-1 origin-top"
                     >
-                      Profile
-                    </Link>
-                    <Link
-                      to="/settings"
-                      className="block px-4 py-2 text-sm text-text-secondary hover:bg-primary/5 hover:text-primary"
-                    >
-                      Settings
-                    </Link>
-                    <button
-                      onClick={logout}
-                      className="block w-full text-left px-4 py-2 text-sm text-text-secondary hover:bg-primary/5 hover:text-primary"
-                    >
-                      Sign out
-                    </button>
-                  </div>
-                )}
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 text-sm text-text-secondary hover:bg-primary/5 hover:text-primary"
+                      >
+                        Profile
+                      </Link>
+                      <Link
+                        to="/settings"
+                        className="block px-4 py-2 text-sm text-text-secondary hover:bg-primary/5 hover:text-primary"
+                      >
+                        Settings
+                      </Link>
+                      <button
+                        onClick={logout}
+                        className="block w-full text-left px-4 py-2 text-sm text-text-secondary hover:bg-primary/5 hover:text-primary"
+                      >
+                        Sign out
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant="ghost">Sign in</Button>
+                  <Button variant="outline">Sign in</Button>
                 </Link>
                 <Link to="/register">
                   <Button>Sign up</Button>
@@ -190,8 +214,8 @@ export default function Header() {
                   <div className="flex-shrink-0">
                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
                       <span className="text-sm font-medium text-primary">
-                        {user?.firstName?.[0]}
-                        {user?.lastName?.[0]}
+                        {user?.firstName?.[0]?.toUpperCase()}
+                        {user?.lastName?.[0]?.toUpperCase()}
                       </span>
                     </div>
                   </div>

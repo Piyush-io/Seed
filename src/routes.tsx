@@ -9,16 +9,17 @@ import Investments from './pages/Investments';
 import Insights from './pages/Insights';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
-import LoginForm from './components/auth/LoginForm';
-import RegisterForm from './components/auth/RegisterForm';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import SectorDetails from './pages/SectorDetails';
 
 export default function AppRoutes() {
   return (
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<Home />} />
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/register" element={<RegisterForm />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
 
       {/* Protected Routes */}
       <Route
@@ -34,6 +35,14 @@ export default function AppRoutes() {
         element={
           <ProtectedRoute>
             <Sectors />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sectors/:sectorId"
+        element={
+          <ProtectedRoute>
+            <SectorDetails />
           </ProtectedRoute>
         }
       />
